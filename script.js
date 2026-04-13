@@ -32,9 +32,13 @@ class Animal {
     this.species = _species;
     this.breed = _breed;
   }
+  sameOwner(otherPet) {
+    return this.ownerName.toLowerCase() === otherPet.ownerName.toLowerCase();
+  }
 }
 
 const form = document.getElementById("form");
+const allOldPets = [];
 
 form.addEventListener("submit", function (e) {
   e.preventDefault();
@@ -46,5 +50,16 @@ form.addEventListener("submit", function (e) {
 
   const pet = new Animal(petName, ownerName, species, breed);
   alert("Dati Salvati Correttamente " + JSON.stringify(pet, null, 2));
+  const divCard = document.createElement("div");
+  divCard.classList.add("card", "text-start", "my-3");
+  divCard.innerHTML = `<h1>Nome Pet: ${petName}</h1><h1>Nome Padrone: ${ownerName}</h1> <h1>Specie: ${species}</h1><h1>Razza: ${breed}</h1>`;
+  form.appendChild(divCard);
+  allOldPets.forEach((oldPet) => {
+    if (pet.sameOwner(oldPet)) {
+      alert(`${pet.petName} e ${oldPet.petName} hanno lo stesso padrone`);
+    }
+  });
+  allOldPets.push(pet);
+
   form.reset();
 });
